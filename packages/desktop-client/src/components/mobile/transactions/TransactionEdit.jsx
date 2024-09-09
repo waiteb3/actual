@@ -61,23 +61,12 @@ import { MobilePageHeader, Page } from '../../Page';
 import { AmountInput } from '../../util/AmountInput';
 import { MobileBackButton } from '../MobileBackButton';
 import { FieldLabel, TapField, InputField, BooleanField } from '../MobileForms';
+import { usePrettyPayee } from '../usePrettyPayee';
 
 import { FocusableAmountInput } from './FocusableAmountInput';
 
 function getFieldName(transactionId, field) {
   return `${field}-${transactionId}`;
-}
-
-export function getDescriptionPretty(transaction, payee, transferAcct) {
-  const { amount } = transaction;
-
-  if (transferAcct) {
-    return `Transfer ${amount > 0 ? 'from' : 'to'} ${transferAcct.name}`;
-  } else if (payee) {
-    return payee.name;
-  }
-
-  return '';
 }
 
 function serializeTransaction(transaction, dateFormat) {
@@ -288,7 +277,8 @@ const ChildTransactionEdit = forwardRef(
       amountFocused,
       amountSign,
       getCategory,
-      getPrettyPayee,
+      getPayee,
+      getTransferAccount,
       isOffBudget,
       isBudgetTransfer,
       onEditField,
@@ -299,6 +289,11 @@ const ChildTransactionEdit = forwardRef(
   ) => {
     const { editingField, onRequestActiveEdit, onClearActiveEdit } =
       useSingleActiveEditForm();
+    const prettyPayee = usePrettyPayee({
+      transaction,
+      payee: getPayee(transaction),
+      transferAccount: getTransferAccount(transaction),
+    });
     return (
       <View
         innerRef={ref}
@@ -322,7 +317,7 @@ const ChildTransactionEdit = forwardRef(
                 editingField &&
                 editingField !== getFieldName(transaction.id, 'payee')
               }
-              value={getPrettyPayee(transaction)}
+              value={prettyPayee}
               onClick={() => onEditField(transaction.id, 'payee')}
               data-testid={`payee-field-${transaction.id}`}
             />
@@ -488,22 +483,13 @@ const TransactionEditInner = memo(function TransactionEditInner({
     return trans?.payee && payeesById?.[trans.payee];
   };
 
-  const getTransferAcct = trans => {
+  const getTransferAccount = trans => {
     const payee = trans && getPayee(trans);
     return payee?.transfer_acct && accountsById?.[payee.transfer_acct];
   };
 
-  const getPrettyPayee = trans => {
-    if (trans && trans.is_parent) {
-      return 'Split';
-    }
-    const transPayee = trans && getPayee(trans);
-    const transTransferAcct = trans && getTransferAcct(trans);
-    return getDescriptionPretty(trans, transPayee, transTransferAcct);
-  };
-
   const isBudgetTransfer = trans => {
-    const transferAcct = trans && getTransferAcct(trans);
+    const transferAcct = trans && getTransferAccount(trans);
     return transferAcct && !transferAcct.offbudget;
   };
 
@@ -700,11 +686,11 @@ const TransactionEditInner = memo(function TransactionEditInner({
 
   const account = getAccount(transaction);
   const isOffBudget = account && !!account.offbudget;
-  const title = getDescriptionPretty(
+  const title = usePrettyPayee({
     transaction,
-    getPayee(transaction),
-    getTransferAcct(transaction),
-  );
+    payee: getPayee(transaction),
+    transferAccount: getTransferAccount(transaction),
+  });
 
   const transactionDate = parseDate(transaction.date, dateFormat, new Date());
   const dateDefaultValue = monthUtils.dayFromDate(transactionDate);
@@ -775,7 +761,7 @@ const TransactionEditInner = memo(function TransactionEditInner({
                 fontWeight: 300,
               }),
             }}
-            value={getPrettyPayee(transaction)}
+            value={title}
             disabled={
               editingField &&
               editingField !== getFieldName(transaction.id, 'payee')
@@ -823,7 +809,8 @@ const TransactionEditInner = memo(function TransactionEditInner({
             }}
             isOffBudget={isOffBudget}
             getCategory={getCategory}
-            getPrettyPayee={getPrettyPayee}
+            getPayee={getPayee}
+            getTransferAccount={getTransferAccount}
             isBudgetTransfer={isBudgetTransfer}
             onUpdate={onUpdate}
             onEditField={onEditField}
