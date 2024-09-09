@@ -1,10 +1,11 @@
 import { isPreviewId } from 'loot-core/shared/transactions';
-import { useAccount } from '../../hooks/useAccount';
 import {
-  AccountEntity,
-  PayeeEntity,
-  TransactionEntity,
+  type AccountEntity,
+  type PayeeEntity,
+  type TransactionEntity,
 } from 'loot-core/types/models';
+
+import { useAccount } from '../../hooks/useAccount';
 
 type UsePrettyPayeeProps = {
   transaction: TransactionEntity & { _inverse?: boolean };
