@@ -5,7 +5,7 @@ import React, {
   createRef,
   useMemo,
   type ReactElement,
-  useEffect,
+  useLayoutEffect,
 } from 'react';
 import { Trans } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -160,7 +160,7 @@ function AllTransactions({
   const prependTransactions: PreviewTransactionEntity[] =
     usePreviewTransactions({ accountId });
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     splitsExpandedDispatch({
       type: 'close-splits',
       ids: prependTransactions.filter(t => t.is_parent).map(t => t.id),
