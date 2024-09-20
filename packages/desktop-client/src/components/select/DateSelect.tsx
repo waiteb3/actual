@@ -35,6 +35,8 @@ import { View } from '../common/View';
 import DateSelectLeft from './DateSelect.left.png';
 import DateSelectRight from './DateSelect.right.png';
 
+import { css } from '@emotion/css';
+
 const pickerStyles = {
   '& .pika-single.actual-date-picker': {
     color: theme.calendarText,
@@ -161,7 +163,12 @@ const DatePicker = forwardRef<DatePickerForwardedRef, DatePickerProps>(
       }
     }, [value, dateFormat]);
 
-    return <View style={{ ...pickerStyles, flex: 1 }} innerRef={mountPoint} />;
+    return (
+      <View
+        className={css({ ...pickerStyles, flex: 1 })}
+        innerRef={mountPoint}
+      />
+    );
   },
 );
 
