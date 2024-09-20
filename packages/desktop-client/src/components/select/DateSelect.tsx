@@ -12,6 +12,7 @@ import React, {
   type MutableRefObject,
 } from 'react';
 
+import { css } from '@emotion/css';
 import { parse, parseISO, format, subDays, addDays, isValid } from 'date-fns';
 import Pikaday from 'pikaday';
 
@@ -34,8 +35,6 @@ import { View } from '../common/View';
 
 import DateSelectLeft from './DateSelect.left.png';
 import DateSelectRight from './DateSelect.right.png';
-
-import { css } from '@emotion/css';
 
 const pickerStyles = {
   '& .pika-single.actual-date-picker': {
