@@ -1,4 +1,10 @@
-import React, { type ComponentProps, memo, useRef, useState } from 'react';
+import React, {
+  type ComponentProps,
+  type CSSProperties,
+  memo,
+  useRef,
+  useState,
+} from 'react';
 
 import { css } from 'glamor';
 
@@ -9,7 +15,7 @@ import { integerToCurrency, amountToInteger } from 'loot-core/src/shared/util';
 
 import { useUndo } from '../../../hooks/useUndo';
 import { SvgCheveronDown } from '../../../icons/v1';
-import { styles, theme, type CSSProperties } from '../../../style';
+import { styles, theme } from '../../../style';
 import { Button } from '../../common/Button2';
 import { Popover } from '../../common/Popover';
 import { Text } from '../../common/Text';

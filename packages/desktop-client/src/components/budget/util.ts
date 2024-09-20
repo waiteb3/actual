@@ -1,4 +1,6 @@
 // @ts-strict-ignore
+import { type CSSProperties } from 'react';
+
 import { type useSpreadsheet } from 'loot-core/src/client/SpreadsheetProvider';
 import { send } from 'loot-core/src/platform/client/fetch';
 import * as monthUtils from 'loot-core/src/shared/months';
@@ -9,7 +11,7 @@ import {
 } from 'loot-core/src/types/models';
 import { type SyncedPrefs } from 'loot-core/src/types/prefs';
 
-import { type CSSProperties, styles, theme } from '../../style';
+import { styles, theme } from '../../style';
 import { type DropPosition } from '../sort';
 
 import { getValidMonthBounds } from './MonthsContext';
