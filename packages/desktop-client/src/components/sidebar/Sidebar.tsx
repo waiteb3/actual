@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 
+import { css } from '@emotion/css';
 import { Resizable } from 're-resizable';
 
 import {
@@ -122,7 +123,7 @@ export function Sidebar() {
     >
       <View
         innerRef={containerRef}
-        style={{
+        className={css({
           color: theme.sidebarItemText,
           height: '100%',
           backgroundColor: theme.sidebarBackground,
@@ -137,7 +138,7 @@ export function Sidebar() {
           },
           flex: 1,
           ...styles.darkScrollbar,
-        }}
+        })}
       >
         <View
           style={{
