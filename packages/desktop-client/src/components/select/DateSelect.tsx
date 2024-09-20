@@ -1,5 +1,6 @@
 // @ts-strict-ignore
 import React, {
+  type CSSProperties,
   forwardRef,
   useEffect,
   useImperativeHandle,
@@ -36,7 +37,7 @@ import { View } from '../common/View';
 import DateSelectLeft from './DateSelect.left.png';
 import DateSelectRight from './DateSelect.right.png';
 
-const pickerStyles = {
+const pickerStyles: CSSProperties = {
   '& .pika-single.actual-date-picker': {
     color: theme.calendarText,
     background: theme.calendarBackground,
@@ -164,7 +165,7 @@ const DatePicker = forwardRef<DatePickerForwardedRef, DatePickerProps>(
 
     return (
       <View
-        className={css({ ...pickerStyles, flex: 1 })}
+        className={css([pickerStyles, { flex: 1 }])}
         innerRef={mountPoint}
       />
     );
