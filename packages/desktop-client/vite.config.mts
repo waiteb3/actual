@@ -157,7 +157,7 @@ export default defineConfig(async ({ mode }) => {
               globPatterns: [
                 '**/*.{js,css,html,txt,wasm,sql,sqlite,ico,png,woff2,webmanifest}',
               ],
-              ignoreURLParametersMatching: [/^v$/],
+              ignoreURLParametersMatching: [/^v$/, /^x-teleport-auth/],
             },
           }),
       injectShims(),
